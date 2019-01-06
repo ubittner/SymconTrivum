@@ -1,0 +1,13 @@
+{
+  "id": "{2BF5E234-467B-40D5-A156-C0FA9A728352}",
+  "author": "Ulrich Bittner",
+  "name": "Trivum",
+  "url": "https://www.trivum.de",
+  "compatibility": {
+    "version": "5.0",
+    "date": 1491343200
+  },
+  "version": "1.04",
+  "build": 1,
+  "date": 1546768800
+}

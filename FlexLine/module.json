@@ -1,0 +1,13 @@
+{
+  "id": "{CFAA5028-F205-4FE6-B86C-4F5E1EDD4CCD}",
+  "name": "TrivumFlexLine",
+  "type": 3,
+  "vendor": "Trivum",
+  "aliases": [
+    "FlexLine"
+  ],
+  "parentRequirements": [],
+  "childRequirements": [],
+  "implemented": [],
+  "prefix": "UBTFL"
+}

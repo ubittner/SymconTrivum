@@ -1,0 +1,360 @@
+{
+  "elements": [
+    {
+      "type": "ExpansionPanel",
+      "caption": "(0) Instance information",
+      "items": [
+        {
+          "type": "Label",
+          "caption": "Module:\t\t\tTrivum FlexLine"
+        },
+        {
+          "type": "Label",
+          "caption": "Description:\t\tThis instance controls a Trivum FlexLine"
+        },
+        {
+          "type": "Label",
+          "caption": "Symcon version:\t5.00"
+        },
+        {
+          "type": "Label",
+          "caption": "Module version:\t1.04-1"
+        },
+        {
+          "type": "Label",
+          "caption": "Date:\t\t\tJanuary 06, 2019"
+        },
+        {
+          "type": "Label",
+          "caption": "Time:\t\t\t11:00"
+        },
+        {
+          "type": "Label",
+          "caption": "Developer:\t\tUlrich Bittner"
+        },
+        {
+          "type": "Label",
+          "caption": "Project:\t\t\tA joint project of Normen Thiel and Ulrich Bittner"
+        },
+        {
+          "type": "Label",
+          "caption": "Prefix:\t\t\tUBTFL"
+        }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "(1) General settings",
+      "items": [
+        {
+          "type": "Label",
+          "caption": "Enter the IP address of the Trivum device"
+        },
+        {
+          "type": "ValidationTextBox",
+          "name": "DeviceIP",
+          "caption": "IP-Address"
+        },
+        {
+          "type": "Label",
+          "caption": "Specify the timeout in milliseconds"
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "Timeout",
+          "caption": "Timeout",
+          "suffix": "ms"
+        }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "(2) Output (Zone)",
+      "items": [
+        {
+          "type": "Label",
+          "caption": "Specify the zone ID to be used as output"
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "ZoneID",
+          "caption": "Zone ID"
+        },
+        {
+          "type": "Label",
+          "caption": "Enter a zone name, e.g. room 2, zone 3 or dance hall"
+        },
+        {
+          "type": "ValidationTextBox",
+          "name": "ZoneName",
+          "caption": "Zone Name"
+        }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "(3) Inputs (Favorite list)",
+      "items": [
+        {
+          "type": "Label",
+          "caption": "Add the favorites as inputs you want to use or delete entries that are not used anymore"
+        },
+        {
+          "type": "Label",
+          "caption": "Use the READ DATA button to add the favourites as inputs automatically"
+        },
+        {
+          "type": "List",
+          "name": "FavoriteList",
+          "rowCount": 10,
+          "add": true,
+          "delete": true,
+          "sort": {
+            "column": "Position",
+            "direction": "ascending"
+          },
+          "columns": [
+            {
+              "caption": "Position",
+              "name": "Position",
+              "width": "100px",
+              "add": "",
+              "edit": {
+                "type": "ValidationTextBox"
+              }
+            },
+            {
+              "caption": "Favorite",
+              "name": "Favorite",
+              "width": "120px",
+              "add": 1,
+              "edit": {
+                "type": "Select",
+                "options": [
+                  {
+                    "caption": "1",
+                    "value": 1
+                  },
+                  {
+                    "caption": "2",
+                    "value": 2
+                  },
+                  {
+                    "caption": "3",
+                    "value": 3
+                  },
+                  {
+                    "caption": "4",
+                    "value": 4
+                  },
+                  {
+                    "caption": "5",
+                    "value": 5
+                  },
+                  {
+                    "caption": "6",
+                    "value": 6
+                  },
+                  {
+                    "caption": "7",
+                    "value": 7
+                  },
+                  {
+                    "caption": "8",
+                    "value": 8
+                  },
+                  {
+                    "caption": "9",
+                    "value": 9
+                  },
+                  {
+                    "caption": "10",
+                    "value": 10
+                  }
+                ]
+              }
+            },
+            {
+              "caption": "Description",
+              "name": "Description",
+              "width": "auto",
+              "add": "",
+              "edit": {
+                "type": "ValidationTextBox"
+              }
+            },
+            {
+              "caption": "Volume in %",
+              "name": "Volume",
+              "width": "200px",
+              "add": -1,
+              "edit": {
+                "type": "NumberSpinner"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "(4) Multiroom",
+      "items": [
+        {
+          "type": "Label",
+          "caption": "Add the members you want to use for this zone or delete entries that are not used anymore"
+        },
+        {
+          "type": "List",
+          "name": "ZoneMembersList",
+          "rowCount": 10,
+          "add": true,
+          "delete": true,
+          "sort": {
+            "column": "Position",
+            "direction": "ascending"
+          },
+          "columns": [
+            {
+              "caption": "Position",
+              "name": "Position",
+              "width": "100px",
+              "add": "",
+              "edit": {
+                "type": "ValidationTextBox"
+              }
+            },
+            {
+              "caption": "Zone ID",
+              "name": "ZoneID",
+              "width": "120px",
+              "add": 0,
+              "edit": {
+                "type": "NumberSpinner"
+              }
+            },
+            {
+              "caption": "Description",
+              "name": "Description",
+              "width": "300px",
+              "add": "",
+              "edit": {
+                "type": "ValidationTextBox"
+              }
+            },
+            {
+              "caption": "Instance ID",
+              "name": "InstanceID",
+              "width": "auto",
+              "add": 0,
+              "edit": {
+                "type": "SelectInstance"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Label",
+      "caption": "(0) Instance information"
+    },
+    {
+      "type": "Button",
+      "caption": "Manual",
+      "onClick": "echo 'https://github.com/ubittner/SymconTrivum';"
+    },
+    {
+      "type": "Label",
+      "caption": "(1) General settings"
+    },
+    {
+      "type": "RowLayout",
+      "items": [
+        {
+          "type": "Button",
+          "caption": "Show Configuration",
+          "onClick": "TOZ_ShowSystemConfiguration($id);"
+        },
+        {
+          "type": "Button",
+          "caption": "Enter Setup",
+          "onClick": "TOZ_SetupSystem($id);"
+        },
+        {
+          "type": "Button",
+          "caption": "Show WebUI",
+          "onClick": "TOZ_ShowWebUI($id);"
+        }
+      ]
+    },
+    {
+      "type": "Label",
+      "caption": "(3) Inputs (Favorite list)"
+    },
+    {
+      "type": "Button",
+      "caption": "Read Data",
+      "onClick": "TOZ_GetTrivumData($id);"
+    }
+  ],
+  "status": [
+    {
+      "code": 101,
+      "icon": "active",
+      "caption": "Trivum FlexLine will be created"
+    },
+    {
+      "code": 102,
+      "icon": "active",
+      "caption": "Trivum FlexLine is active"
+    },
+    {
+      "code": 103,
+      "icon": "active",
+      "caption": "Trivum FlexLine will be deleted"
+    },
+    {
+      "code": 104,
+      "icon": "inactive",
+      "caption": "Trivium FlexLine is inactive"
+    },
+    {
+      "code": 2111,
+      "icon": "error",
+      "caption": "Please enter a valid IP Address!"
+    },
+    {
+      "code": 2121,
+      "icon": "error",
+      "caption": "Timeout must be greater or equal 1000 ms!"
+    },
+    {
+      "code": 2211,
+      "icon": "error",
+      "caption": "Please enter a valid Zone ID!"
+    },
+    {
+      "code": 2221,
+      "icon": "error",
+      "caption": "Please enter a name for the Trivum FlexLine!"
+    },
+    {
+      "code": 2311,
+      "icon": "error",
+      "caption": "Please check the Inputs (Favorite List)"
+    },
+    {
+      "code": 2411,
+      "icon": "error",
+      "caption": "Please check Multiroom"
+    },
+    {
+      "code": 2999,
+      "icon": "error",
+      "caption": "An unknown error has occurred!"
+    }
+  ]
+}
