@@ -5,6 +5,7 @@
 ![Version](https://img.shields.io/badge/Modul_Build-1-blue.svg)
 ![Version](https://img.shields.io/badge/Code-PHP-blue.svg)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![StyleCI](https://github.styleci.io/repos/164321794/shield?branch=master&style=flat)](https://github.styleci.io/repos/164321794)
 
 Dies ist ein Gemeinschaftsprojekt von Normen Thiel und Ulrich Bittner und integriert [Trivum FlexLine SoundSysteme](https://www.trivum.de/products/flexline/) in [IP-Symcon](https://www.symcon.de).
 
