@@ -184,7 +184,7 @@ class TrivumFlexLine extends IPSModule
                     $rowColor = '#FFC0C0';
                     $zoneMemberStatus = false;
                 }
-                $formdata->elements[4]->items[1]->values[] = array('Position' => $currentArray->Position, 'ZoneID' => $currentArray->ZoneID, 'Description' => $currentArray->Description, 'InstanceID' => $currentArray->InstanceID, 'rowColor' => $rowColor);
+                $formdata->elements[4]->items[1]->values[] = ['Position' => $currentArray->Position, 'ZoneID' => $currentArray->ZoneID, 'Description' => $currentArray->Description, 'InstanceID' => $currentArray->InstanceID, 'rowColor' => $rowColor];
                 if ($zoneMemberStatus == false) {
                     $this->SetStatus(2411);
                 }
@@ -218,7 +218,7 @@ class TrivumFlexLine extends IPSModule
                     $rowColor = '#FFC0C0';
                     $favouriteStatus = false;
                 }
-                $formdata->elements[3]->items[2]->values[] = array('Position' => $currentArray->Position, 'Favorite' => $currentArray->Favorite, 'Description' => $currentArray->Description, 'Volume' => $currentArray->Volume, 'rowColor' => $rowColor);
+                $formdata->elements[3]->items[2]->values[] = ['Position' => $currentArray->Position, 'Favorite' => $currentArray->Favorite, 'Description' => $currentArray->Description, 'Volume' => $currentArray->Volume, 'rowColor' => $rowColor];
                 if ($favouriteStatus == false) {
                     $this->SetStatus(2311);
                 }
@@ -242,7 +242,7 @@ class TrivumFlexLine extends IPSModule
                 case 'VolumeSlider':
                     $this->SetZoneVolume($Value);
                     break;
-                case "ZoneMembers":
+                case 'ZoneMembers':
                     $this->SelectZoneMember($Value);
                     break;
                 default:
@@ -327,7 +327,7 @@ class TrivumFlexLine extends IPSModule
                 $zoneName = 'Trivium Output Zone';
                 foreach ($zones as $key => $zone) {
                     if ($zone->id == $zoneID) {
-                        $zoneName = (string)$zone->description;
+                        $zoneName = (string) $zone->description;
                     }
                 }
                 IPS_SetProperty($this->InstanceID, 'ZoneName', $zoneName);
@@ -335,21 +335,21 @@ class TrivumFlexLine extends IPSModule
                 // Get favorites
                 $endpoint = '/api/v1/trivum/favorite';
                 $data = $this->SendData($endpoint);
-                $favoriteList = array();
+                $favoriteList = [];
                 $i = 0;
                 foreach ($data->row as $favorite) {
                     $favoriteNumber = $favorite->number + 1;
                     $name = str_replace('%20', ' ', $favorite->info2);
-                    $favoriteList[$i]['Favorite'] = (string)$favoriteNumber;
-                    $favoriteList[$i]['Description'] = (string)$name;
-                    $favoriteList[$i]['Volume'] = (integer)10;
+                    $favoriteList[$i]['Favorite'] = (string) $favoriteNumber;
+                    $favoriteList[$i]['Description'] = (string) $name;
+                    $favoriteList[$i]['Volume'] = (int) 10;
                     $i++;
                 }
                 IPS_SetProperty($this->InstanceID, 'FavoriteList', json_encode($favoriteList));
                 if (IPS_HasChanges($this->InstanceID)) {
                     IPS_ApplyChanges($this->InstanceID);
                 }
-                echo $this->Translate("Configuration was read out successfully!");
+                echo $this->Translate('Configuration was read out successfully!');
             }
         } catch (Exception $e) {
             $this->CreateMessageLogEntry($e->getMessage());
@@ -366,6 +366,7 @@ class TrivumFlexLine extends IPSModule
     public function ToggleZonePower(bool $State)
     {
         $result = null;
+
         try {
             $status = 'off';
             switch ($State) {
@@ -378,7 +379,7 @@ class TrivumFlexLine extends IPSModule
             }
             // Power on
             if ($State == true) {
-                $favorite = (int)$this->GetValue('AudioSources');
+                $favorite = (int) $this->GetValue('AudioSources');
                 $result = $this->SelectFavorite($favorite);
             } else {
                 // Reset group
@@ -395,7 +396,6 @@ class TrivumFlexLine extends IPSModule
                     } else {
                         $this->CreateMessageLogEntry($this->Translate('An error has occurred when switching the device'));
                     }
-
                 }
             }
         } catch (Exception $e) {
@@ -414,6 +414,7 @@ class TrivumFlexLine extends IPSModule
     public function SelectFavorite(int $Value)
     {
         $result = null;
+
         try {
             $zoneID = $this->ReadPropertyInteger('ZoneID');
             // Get value from audio favorites profile
@@ -458,6 +459,7 @@ class TrivumFlexLine extends IPSModule
     public function SetZoneVolume(int $Volume)
     {
         $result = null;
+
         try {
             if ($Volume > 100) {
                 $Volume = 100;
@@ -495,9 +497,9 @@ class TrivumFlexLine extends IPSModule
                 // Get group number of this zone
                 $groupNumber = 255;
                 foreach ($zones as $zone) {
-                    $zoneID = (integer)$zone->id;
+                    $zoneID = (int) $zone->id;
                     if ($zoneID == $masterZoneID) {
-                        $groupNumber = (integer)$zone->group;
+                        $groupNumber = (int) $zone->group;
                     }
                 }
                 // First grouping
@@ -512,9 +514,9 @@ class TrivumFlexLine extends IPSModule
                     $zones = $groupStatus->row;
                     $groupNumber = 255;
                     foreach ($zones as $zone) {
-                        $zoneID = (integer)$zone->id;
+                        $zoneID = (int) $zone->id;
                         if ($zoneID == $masterZoneID) {
-                            $groupNumber = (integer)$zone->group;
+                            $groupNumber = (int) $zone->group;
                         }
                     }
                     // Zone power
@@ -525,9 +527,9 @@ class TrivumFlexLine extends IPSModule
                     $this->SetValue('GroupType', 'Master');
                     // Group type slave
                     foreach ($zoneMembers as $zoneMember) {
-                        $zoneID = (integer)$zoneMember->ZoneID;
+                        $zoneID = (int) $zoneMember->ZoneID;
                         if ($MemberZoneID == $zoneID) {
-                            $zoneInstanceID = (integer)$zoneMember->InstanceID;
+                            $zoneInstanceID = (int) $zoneMember->InstanceID;
                             // Zone power
                             $zonePower = IPS_GetObjectIDByIdent('ZonePower', $zoneInstanceID);
                             SetValue($zonePower, true);
@@ -539,21 +541,20 @@ class TrivumFlexLine extends IPSModule
                             SetValue($groupType, 'Slave');
                         }
                     }
-
                 }
                 // Add another zone
                 if ($groupNumber >= 0 && $groupNumber < 255) {
                     $newZoneMembers = '--------';
                     foreach ($zones as $zone) {
-                        $zoneID = (integer)$zone->id;
-                        $zoneGroupNumber = (integer)$zone->group;
+                        $zoneID = (int) $zone->id;
+                        $zoneGroupNumber = (int) $zone->group;
                         if ($zoneGroupNumber == $groupNumber) {
                             $newZoneMembers = substr_replace($newZoneMembers, '+', $zoneID, 1);
                             // Group type slave
                             foreach ($zoneMembers as $zoneMember) {
-                                $zoneID = (integer)$zoneMember->ZoneID;
+                                $zoneID = (int) $zoneMember->ZoneID;
                                 if ($MemberZoneID == $zoneID) {
-                                    $zoneInstanceID = (integer)$zoneMember->InstanceID;
+                                    $zoneInstanceID = (int) $zoneMember->InstanceID;
                                     // Zone power
                                     $zonePower = IPS_GetObjectIDByIdent('ZonePower', $zoneInstanceID);
                                     SetValue($zonePower, true);
@@ -579,16 +580,16 @@ class TrivumFlexLine extends IPSModule
                 // Get group number of this zone
                 $groupNumber = 255;
                 foreach ($zones as $zone) {
-                    $zoneID = (integer)$zone->id;
+                    $zoneID = (int) $zone->id;
                     if ($zoneID == $masterZoneID) {
-                        $groupNumber = (integer)$zone->group;
+                        $groupNumber = (int) $zone->group;
                     }
                 }
                 // Get grouped zone ids
-                $groupedZoneMemberIDs = array();
+                $groupedZoneMemberIDs = [];
                 foreach ($zones as $zone) {
-                    $id = (integer)$zone->id;
-                    $group = (integer)$zone->group;
+                    $id = (int) $zone->id;
+                    $group = (int) $zone->group;
                     if ($group == $groupNumber) {
                         array_push($groupedZoneMemberIDs, $id);
                     }
@@ -622,7 +623,7 @@ class TrivumFlexLine extends IPSModule
                     if (!empty($groupedZoneMemberIDs) && $groupNumber != 255) {
                         foreach ($groupedZoneMemberIDs as $groupedZoneMemberID) {
                             foreach ($zoneMembers as $zoneMember) {
-                                $zoneMemberID = (integer)$zoneMember->ZoneID;
+                                $zoneMemberID = (int) $zoneMember->ZoneID;
                                 if ($groupedZoneMemberID == $zoneMemberID) {
                                     $zoneInstanceID = $zoneMember->InstanceID;
                                     $powerZone = IPS_GetObjectIDByIdent('ZonePower', $zoneInstanceID);
@@ -775,8 +776,8 @@ class TrivumFlexLine extends IPSModule
         $zoneMembers = json_decode($this->ReadPropertyString('ZoneMembersList'));
         if (!empty($zoneMembers)) {
             foreach ($zoneMembers as $zoneMember) {
-                $position = (integer)$zoneMember->Position;
-                $zoneDescription = (string)$zoneMember->Description;
+                $position = (int) $zoneMember->Position;
+                $zoneDescription = (string) $zoneMember->Description;
                 if (!empty($zoneDescription)) {
                     // Create associations
                     IPS_SetVariableProfileAssociation($zoneMembersProfile, $position, '' . $zoneDescription . '', '', 0x0000FF);
@@ -845,6 +846,7 @@ class TrivumFlexLine extends IPSModule
     private function CheckDevice()
     {
         $device = null;
+
         try {
             $deviceIP = $this->ReadPropertyString('DeviceIP');
             if (!empty($deviceIP)) {
@@ -872,6 +874,7 @@ class TrivumFlexLine extends IPSModule
     private function SendData(string $Endpoint)
     {
         $xmldata = null;
+
         try {
             $device = $this->CheckDevice();
             if (!empty($device)) {
@@ -880,10 +883,10 @@ class TrivumFlexLine extends IPSModule
                 if ($timeout && Sys_Ping($deviceIP, $timeout) == true) {
                     $url = 'http://' . $deviceIP . $Endpoint;
                     $curl = curl_init();
-                    curl_setopt_array($curl, array(CURLOPT_URL => $url,
-                        CURLOPT_HEADER => 0,
-                        CURLOPT_RETURNTRANSFER => 1,
-                        CURLOPT_HTTPHEADER => array('Content-type: text/xml')));
+                    curl_setopt_array($curl, [CURLOPT_URL => $url,
+                        CURLOPT_HEADER                    => 0,
+                        CURLOPT_RETURNTRANSFER            => 1,
+                        CURLOPT_HTTPHEADER                => ['Content-type: text/xml']]);
                     $result = curl_exec($curl);
                     curl_close($curl);
                     if ($result !== false) {
@@ -899,6 +902,7 @@ class TrivumFlexLine extends IPSModule
 
     /**
      * Logs a message.
+     *
      * @param string $Text
      */
     protected function CreateMessageLogEntry(string $Text)
