@@ -276,17 +276,17 @@
         {
           "type": "Button",
           "caption": "Show Configuration",
-          "onClick": "TOZ_ShowSystemConfiguration($id);"
+          "onClick": "UBTFL_ShowSystemConfiguration($id);"
         },
         {
           "type": "Button",
           "caption": "Enter Setup",
-          "onClick": "TOZ_SetupSystem($id);"
+          "onClick": "UBTFL_SetupSystem($id);"
         },
         {
           "type": "Button",
           "caption": "Show WebUI",
-          "onClick": "TOZ_ShowWebUI($id);"
+          "onClick": "UBTFL_ShowWebUI($id);"
         }
       ]
     },
@@ -297,7 +297,7 @@
     {
       "type": "Button",
       "caption": "Read Data",
-      "onClick": "TOZ_GetTrivumData($id);"
+      "onClick": "UBTFL_GetTrivumData($id);"
     }
   ],
   "status": [
