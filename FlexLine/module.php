@@ -439,7 +439,7 @@ class TrivumFlexLine extends IPSModule
                         if ($favorite->Favorite == $favoriteID) {
                             $useLineIn = $favorite->LineIn;
                             if ($useLineIn) {
-                                $endpoint = '/xml/zone/playFavorite.xml?id=' . $zoneID . '&favorite=' . $favoriteID;
+                                $endpoint = '/xml/zone/playFavorite.xml?id=' . $zoneID . '&favorite=' . $favoriteID-1;
                             } else {
                                 $endpoint = '/xml/zone/set.xml?source=@f' . $favoriteID . '&zone=@' . $zoneID;
                             }
