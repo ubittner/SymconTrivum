@@ -116,10 +116,9 @@ __Schaltfläche__:
 
 | Name                                  | Beschreibung                                                                                                      |
 | :-----------------------------------: | :---------------------------------------------------------------------------------------------------------------: |
-| Button "Konfiguration aufrufen"       | Ruft die Konfiguration des Trivum Multiroom Audio Systems auf, sofern kein Popup-Blocker aktiviert wurde          |
+| Button "Favoriten anzeigen"           | Zeigt die Favoriten an, sofern kein Popup-Blocker aktiviert wurde                                                 |
 | Button "Setup aufrufen"               | Ruft den Setup-Modus des Trivum Multiroom Audio Systems auf, sofern kein Popup-Blocker aktiviert wurde            |
 | Button "Bedienoberfläche aufrufen"    | Ruft die Bedienoberfläche des Trivum Multiroom Audio Systems auf, sofern kein Popup-Blocker aktiviert wurde       |
-| Button "Daten auslesen"               | Liest den Namen der Zone und die Favoritenliste des Trivum Multiroom Audio Systems aus                            |
 
 Geben Sie die erforderlichen Daten an. 
 
@@ -220,7 +219,8 @@ __Modul GUIDs__:
 
 | Version       | Datum         | Beschreibung                      |
 | :-----------: | :-----------: |---------------------------------: |
-| 1.04          | 06.01.2019    | Anpassungen an IP-Symcon 5.0      |
+| 1.04-2        | 19.04.2019    | Anpassungen an Firmware-Update    |
+| 1.04-1        | 06.01.2019    | Anpassungen an IP-Symcon 5.0      |
 | 1.03          | 16.09.2018    | Gruppensteuerung hinzugefügt      |
 | 1.02          | 27.08.2018    | Verbesserungen                    |
 | 1.01          | 08.05.2018    | Verbesserungen                    |
