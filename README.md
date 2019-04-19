@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/badge/Symcon_Version-5.0>-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
 ![Version](https://img.shields.io/badge/Modul_Version-1.04-blue.svg)
-![Version](https://img.shields.io/badge/Modul_Build-1-blue.svg)
+![Version](https://img.shields.io/badge/Modul_Build-2-blue.svg)
 ![Version](https://img.shields.io/badge/Code-PHP-blue.svg)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![StyleCI](https://github.styleci.io/repos/164321794/shield?branch=master&style=flat)](https://github.styleci.io/repos/164321794)
@@ -116,10 +116,9 @@ __Schaltfläche__:
 
 | Name                                  | Beschreibung                                                                                                      |
 | :-----------------------------------: | :---------------------------------------------------------------------------------------------------------------: |
-| Button "Konfiguration aufrufen"       | Ruft die Konfiguration des Trivum Multiroom Audio Systems auf, sofern kein Popup-Blocker aktiviert wurde          |
+| Button "Favoriten anzeigen"           | Zeigt die Favoriten an, sofern kein Popup-Blocker aktiviert wurde                                                 |
 | Button "Setup aufrufen"               | Ruft den Setup-Modus des Trivum Multiroom Audio Systems auf, sofern kein Popup-Blocker aktiviert wurde            |
 | Button "Bedienoberfläche aufrufen"    | Ruft die Bedienoberfläche des Trivum Multiroom Audio Systems auf, sofern kein Popup-Blocker aktiviert wurde       |
-| Button "Daten auslesen"               | Liest den Namen der Zone und die Favoritenliste des Trivum Multiroom Audio Systems aus                            |
 
 Geben Sie die erforderlichen Daten an. 
 
@@ -220,7 +219,8 @@ __Modul GUIDs__:
 
 | Version       | Datum         | Beschreibung                      |
 | :-----------: | :-----------: |---------------------------------: |
-| 1.04          | 06.01.2019    | Anpassungen an IP-Symcon 5.0      |
+| 1.04-2        | 19.04.2019    | Anpassungen an Firmware-Update    |
+| 1.04-1        | 06.01.2019    | Anpassungen an IP-Symcon 5.0      |
 | 1.03          | 16.09.2018    | Gruppensteuerung hinzugefügt      |
 | 1.02          | 27.08.2018    | Verbesserungen                    |
 | 1.01          | 08.05.2018    | Verbesserungen                    |

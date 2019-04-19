@@ -190,7 +190,7 @@ class TrivumFlexLine extends IPSModule
                 }
             }
         }
-        // Favourites
+        // Favorites
         $favorites = json_decode($this->ReadPropertyString('FavoriteList'));
         if (!empty($favorites)) {
             $favouriteStatus = true;
@@ -224,6 +224,7 @@ class TrivumFlexLine extends IPSModule
                 }
             }
         }
+        
         return json_encode($formdata);
     }
 
@@ -265,6 +266,25 @@ class TrivumFlexLine extends IPSModule
             if (!empty($device)) {
                 $deviceIP = $this->ReadPropertyString('DeviceIP');
                 $url = 'http://' . $deviceIP . '/print/system/sampleHttprequest';
+                echo $url;
+            } else {
+                echo $this->Translate("Unable to reach the device.\nPlease check network configuration!");
+            }
+        } catch (Exception $e) {
+            $this->CreateMessageLogEntry($e->getMessage());
+        }
+    }
+
+    /**
+     * Shows the system configuration of a Trivum device.
+     */
+    public function ShowFavoriteList()
+    {
+        try {
+            $device = $this->CheckDevice();
+            if (!empty($device)) {
+                $deviceIP = $this->ReadPropertyString('DeviceIP');
+                $url = 'http://' . $deviceIP . '/api/v1/trivum/favorite';
                 echo $url;
             } else {
                 echo $this->Translate("Unable to reach the device.\nPlease check network configuration!");
@@ -428,18 +448,34 @@ class TrivumFlexLine extends IPSModule
                     }
                 }
             }
+            $favoriteID = $favorite;
+            $endpoint = null;
             if (!is_null($favorite)) {
-                $favoriteID = $favorite - 1;
-                $endpoint = '/xml/zone/playFavorite.xml?id=' . $zoneID . '&favorite=' . $favoriteID;
-                $data = $this->SendData($endpoint);
-                if (!empty($data)) {
-                    if ($data->userdata[0] == 0) {
-                        $this->SetValue('AudioSources', $Value);
-                        $this->SetValue('ZonePower', true);
-                        $this->SetStandardVolume();
-                        $result = $data;
-                    } else {
-                        $this->CreateMessageLogEntry($this->Translate('An error has occurred when selecting a favorite'));
+                $favorites = json_decode($this->ReadPropertyString('FavoriteList'));
+                if (!empty($favorites)) {
+                    foreach ($favorites as $favorite) {
+                        if ($favorite->Favorite == $favoriteID) {
+                            $useLineIn = $favorite->LineIn;
+                            if ($useLineIn) {
+                                $oldID = (int)$favoriteID - 1;
+                                $endpoint = '/xml/zone/playFavorite.xml?id=' . $zoneID . '&favorite=' . $oldID;
+                            } else {
+                                $endpoint = '/xml/zone/set.xml?source=@f' . $favoriteID . '&zone=@' . $zoneID;
+                            }
+                        }
+                    }
+                }
+                if (!is_null($endpoint)) {
+                    $data = $this->SendData($endpoint);
+                    if (!empty($data)) {
+                        if ($data->userdata[0] == 0) {
+                            $this->SetValue('AudioSources', $Value);
+                            $this->SetValue('ZonePower', true);
+                            $this->SetStandardVolume();
+                            $result = $data;
+                        } else {
+                            $this->CreateMessageLogEntry($this->Translate('An error has occurred when selecting a favorite'));
+                        }
                     }
                 }
             }
@@ -488,6 +524,14 @@ class TrivumFlexLine extends IPSModule
      */
     public function SelectZoneMember(int $MemberZoneID)
     {
+        $zoneMembers = json_decode($this->ReadPropertyString('ZoneMembersList'));
+        if (!empty($zoneMembers)) {
+            foreach ($zoneMembers as $zoneMember) {
+                if ($MemberZoneID == $zoneMember->Position) {
+                    $MemberZoneID = $zoneMember->ZoneID;
+                }
+            }
+        }
         $masterZoneID = $this->ReadPropertyInteger('ZoneID');
         $zoneMembers = json_decode($this->ReadPropertyString('ZoneMembersList'));
         if ($MemberZoneID != -1) {
