@@ -414,7 +414,6 @@ class TrivumFlexLine extends IPSModule
     public function SelectFavorite(int $Value)
     {
         $result = null;
-
         try {
             $zoneID = $this->ReadPropertyInteger('ZoneID');
             // Get value from audio favorites profile
@@ -429,8 +428,17 @@ class TrivumFlexLine extends IPSModule
                 }
             }
             if (!is_null($favorite)) {
-                $favoriteID = $favorite - 1;
-                $endpoint = '/xml/zone/playFavorite.xml?id=' . $zoneID . '&favorite=' . $favoriteID;
+                // Old version
+                //$favoriteID = $favorite - 1;
+
+                // New version
+                $favoriteID = $favorite;
+
+                // This is the old endpoint !
+                //$endpoint = '/xml/zone/playFavorite.xml?id=' . $zoneID . '&favorite=' . $favoriteID;
+
+                // New endpoint
+                $endpoint = '/xml/zone/set.xml?source=@f'. $favoriteID .'&zone=@' .$zoneID;
                 $data = $this->SendData($endpoint);
                 if (!empty($data)) {
                     if ($data->userdata[0] == 0) {
