@@ -190,8 +190,8 @@ class TrivumFlexLine extends IPSModule
                 }
             }
         }
-        // Favourites
-        /*
+        // Favorites
+        
         $favorites = json_decode($this->ReadPropertyString('FavoriteList'));
         if (!empty($favorites)) {
             $favouriteStatus = true;
@@ -225,7 +225,7 @@ class TrivumFlexLine extends IPSModule
                 }
             }
         }
-        */
+        
         return json_encode($formdata);
     }
 
