@@ -506,6 +506,15 @@ class TrivumFlexLine extends IPSModule
      */
     public function SelectZoneMember(int $MemberZoneID)
     {
+        $zoneMembers = json_decode($this->ReadPropertyString('ZoneMembersList'));
+        if (!empty($zoneMembers)) {
+            foreach ($zoneMembers as $zoneMember) {
+                if ($MemberZoneID == $zoneMember) {
+                    $MemberZoneID = $zoneMember->ZoneID;
+                }
+            }
+        }
+        
         $masterZoneID = $this->ReadPropertyInteger('ZoneID');
         $zoneMembers = json_decode($this->ReadPropertyString('ZoneMembersList'));
         if ($MemberZoneID != -1) {
