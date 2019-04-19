@@ -433,7 +433,7 @@ class TrivumFlexLine extends IPSModule
             $favoriteID = $favorite;
             $endpoint = null;
             if (!is_null($favorite)) {
-                $favorites = json_encode($this->ReadPropertyString('FavoriteList'));
+                $favorites = json_decode($this->ReadPropertyString('FavoriteList'));
                 if (!empty($favorites)) {
                     foreach ($favorites as $favorite) {
                         if ($favorite->Favorite == $favoriteID) {
