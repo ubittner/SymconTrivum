@@ -184,6 +184,15 @@
               }
             },
             {
+              "name": "LineIn",
+              "caption": "LineIn",
+              "width": "150px",
+              "add": false,
+              "edit": {
+                "type": "CheckBox"
+              }
+            },
+            {
               "caption": "Volume in %",
               "name": "Volume",
               "width": "200px",

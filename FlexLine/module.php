@@ -427,27 +427,35 @@ class TrivumFlexLine extends IPSModule
                     }
                 }
             }
+            $favoriteID = $favorite;
+            $endpoint = null;
             if (!is_null($favorite)) {
-                // Old version
-                //$favoriteID = $favorite - 1;
+                $favorites = json_encode($this->ReadPropertyString('FavoriteList'));
+                if (!empty($favorites)) {
+                    foreach ($favorites as $favorite) {
+                        if ($favorite->Favorite == $favoriteID) {
+                            $useLineIn = $favorite->LineIn;
+                            if ($useLineIn) {
+                                $endpoint = '/xml/zone/playFavorite.xml?id=' . $zoneID . '&favorite=' . $favoriteID;
 
-                // New version
-                $favoriteID = $favorite;
+                            } else {
+                                $endpoint = '/xml/zone/set.xml?source=@f' . $favoriteID . '&zone=@' . $zoneID;
+                            }
+                        }
+                    }
 
-                // This is the old endpoint !
-                //$endpoint = '/xml/zone/playFavorite.xml?id=' . $zoneID . '&favorite=' . $favoriteID;
-
-                // New endpoint
-                $endpoint = '/xml/zone/set.xml?source=@f'. $favoriteID .'&zone=@' .$zoneID;
-                $data = $this->SendData($endpoint);
-                if (!empty($data)) {
-                    if ($data->userdata[0] == 0) {
-                        $this->SetValue('AudioSources', $Value);
-                        $this->SetValue('ZonePower', true);
-                        $this->SetStandardVolume();
-                        $result = $data;
-                    } else {
-                        $this->CreateMessageLogEntry($this->Translate('An error has occurred when selecting a favorite'));
+                }
+                if (!is_null($endpoint)) {
+                    $data = $this->SendData($endpoint);
+                    if (!empty($data)) {
+                        if ($data->userdata[0] == 0) {
+                            $this->SetValue('AudioSources', $Value);
+                            $this->SetValue('ZonePower', true);
+                            $this->SetStandardVolume();
+                            $result = $data;
+                        } else {
+                            $this->CreateMessageLogEntry($this->Translate('An error has occurred when selecting a favorite'));
+                        }
                     }
                 }
             }
