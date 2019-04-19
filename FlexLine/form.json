@@ -18,11 +18,11 @@
         },
         {
           "type": "Label",
-          "caption": "Module version:\t1.04-1"
+          "caption": "Module version:\t1.04-2"
         },
         {
           "type": "Label",
-          "caption": "Date:\t\t\tJanuary 06, 2019"
+          "caption": "Date:\t\t\tApril 19, 2019"
         },
         {
           "type": "Label",
@@ -284,8 +284,8 @@
       "items": [
         {
           "type": "Button",
-          "caption": "Show Configuration",
-          "onClick": "UBTFL_ShowSystemConfiguration($id);"
+          "caption": "Show Favorites",
+          "onClick": "UBTFL_ShowFavoriteList($id);"
         },
         {
           "type": "Button",
@@ -298,15 +298,6 @@
           "onClick": "UBTFL_ShowWebUI($id);"
         }
       ]
-    },
-    {
-      "type": "Label",
-      "caption": "(3) Inputs (Favorite list)"
-    },
-    {
-      "type": "Button",
-      "caption": "Read Data",
-      "onClick": "UBTFL_GetTrivumData($id);"
     }
   ],
   "status": [

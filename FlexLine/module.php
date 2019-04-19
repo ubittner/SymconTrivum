@@ -191,7 +191,6 @@ class TrivumFlexLine extends IPSModule
             }
         }
         // Favorites
-        
         $favorites = json_decode($this->ReadPropertyString('FavoriteList'));
         if (!empty($favorites)) {
             $favouriteStatus = true;
@@ -267,6 +266,25 @@ class TrivumFlexLine extends IPSModule
             if (!empty($device)) {
                 $deviceIP = $this->ReadPropertyString('DeviceIP');
                 $url = 'http://' . $deviceIP . '/print/system/sampleHttprequest';
+                echo $url;
+            } else {
+                echo $this->Translate("Unable to reach the device.\nPlease check network configuration!");
+            }
+        } catch (Exception $e) {
+            $this->CreateMessageLogEntry($e->getMessage());
+        }
+    }
+
+    /**
+     * Shows the system configuration of a Trivum device.
+     */
+    public function ShowFavoriteList()
+    {
+        try {
+            $device = $this->CheckDevice();
+            if (!empty($device)) {
+                $deviceIP = $this->ReadPropertyString('DeviceIP');
+                $url = 'http://' . $deviceIP . '/api/v1/trivum/favorite';
                 echo $url;
             } else {
                 echo $this->Translate("Unable to reach the device.\nPlease check network configuration!");
@@ -514,7 +532,6 @@ class TrivumFlexLine extends IPSModule
                 }
             }
         }
-        
         $masterZoneID = $this->ReadPropertyInteger('ZoneID');
         $zoneMembers = json_decode($this->ReadPropertyString('ZoneMembersList'));
         if ($MemberZoneID != -1) {
