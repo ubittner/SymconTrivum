@@ -100,10 +100,6 @@
           "caption": "Add the favorites as inputs you want to use or delete entries that are not used anymore"
         },
         {
-          "type": "Label",
-          "caption": "Use the READ DATA button to add the favourites as inputs automatically"
-        },
-        {
           "type": "List",
           "name": "FavoriteList",
           "rowCount": 10,
