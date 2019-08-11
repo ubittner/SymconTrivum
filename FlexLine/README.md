@@ -9,7 +9,7 @@
 
 ![Image](../imgs/Trivum_Logo.png)
 
-Dies ist ein Gemeinschaftsprojekt von Normen Thiel und Ulrich Bittner und integriert [Trivum FlexLine SoundSysteme](https://www.trivum.de/products/flexline/) in [IP-Symcon](https://www.symcon.de).
+Dies ist ein Gemeinschaftsprojekt von Normen Thiel und Ulrich Bittner und integriert [Trivum FlexLine Soundsysteme](https://www.trivum.de/products/flexline/) in [IP-Symcon](https://www.symcon.de).
 
 Für dieses Modul besteht kein Anspruch auf Fehlerfreiheit, Weiterentwicklung, sonstige Unterstützung oder Support.
 
@@ -30,11 +30,7 @@ Der Nutzer stimmt den o.a. Bedingungen, sowie den Lizenzbedingungen ausdrücklic
 5. [Statusvariablen und Profile](#5-statusvariablen-und-profile)
 6. [WebFront](#6-webfront)
 7. [PHP-Befehlsreferenz](#7-php-befehlsreferenz)
-8. [GUIDs](#8-guids)
-9. [Changelog](#9-changelog)
-10. [Lizenz](#10-lizenz)
-11. [Autor](#11-autor)
-
+8. [GUIDs](#8-guids)  
 
 ### 1. Funktionsumfang
 
@@ -217,21 +213,3 @@ __Modul GUIDs__:
 | Bibliothek        | {2BF5E234-467B-40D5-A156-C0FA9A728352}    | Library GUID  |
 | FlexLine          | {CFAA5028-F205-4FE6-B86C-4F5E1EDD4CCD}    | Module GUID   |
 
-### 9. Changelog
-
-| Version       | Datum         | Beschreibung                      |
-| :-----------: | :-----------: |---------------------------------: |
-| 1.04-2        | 19.04.2019    | Anpassungen an Firmware-Update    |
-| 1.04-1        | 06.01.2019    | Anpassungen an IP-Symcon 5.0      |
-| 1.03          | 16.09.2018    | Gruppensteuerung hinzugefügt      |
-| 1.02          | 27.08.2018    | Verbesserungen                    |
-| 1.01          | 08.05.2018    | Verbesserungen                    |
-| 1.00          | 30.03.2018    | Modulerstellung                   |
-
-### 10. Lizenz
-
-[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-
-### 11. Autor
-
-Ulrich Bittner
