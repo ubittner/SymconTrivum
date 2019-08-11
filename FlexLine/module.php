@@ -218,7 +218,6 @@ class TrivumFlexLine extends IPSModule
                 }
             }
         }
-
         return json_encode($formdata);
     }
 
