@@ -198,7 +198,7 @@
     },
     {
       "type": "ExpansionPanel",
-      "caption": "(4) Multiroom",
+      "caption": "(4) Multiroom (Members)",
       "items": [
         {
           "type": "Label",
