@@ -429,8 +429,9 @@ class TrivumFlexLine extends IPSModule
         $result = null;
 
         try {
+
             // Check if device is a slave
-            $groupType = $this->GetValue('GroupType');
+            $groupType = (string)$this->GetValue('GroupType');
             // Device is a slave, dissolve group
             if ($groupType == 'Slave') {
                 $this->SelectZoneMember(-1);
