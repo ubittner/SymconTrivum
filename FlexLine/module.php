@@ -429,6 +429,13 @@ class TrivumFlexLine extends IPSModule
         $result = null;
 
         try {
+            // Check if device is a slave
+            $groupType = $this->GetValue('GroupType');
+            // Device is a slave, dissolve group
+            if ($groupType == 'Slave') {
+                $this->SelectZoneMember(-1);
+            }
+
             $zoneID = $this->ReadPropertyInteger('ZoneID');
             // Get value from audio favorites profile
             $profile = 'UBTFL.' . $this->InstanceID . '.AudioFavorites';
