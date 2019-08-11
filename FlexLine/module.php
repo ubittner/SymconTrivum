@@ -178,7 +178,7 @@ class TrivumFlexLine extends IPSModule
                     $rowColor = '#FFC0C0';
                     $zoneMemberStatus = false;
                 }
-                $formdata->elements[4]->items[1]->values[] = ['Position' => $currentArray->Position, 'ZoneID' => $currentArray->ZoneID, 'Description' => $currentArray->Description, 'InstanceID' => $currentArray->InstanceID, 'rowColor' => $rowColor];
+                $formdata->elements[10]->items[2]->values[] = ['Position' => $currentArray->Position, 'ZoneID' => $currentArray->ZoneID, 'Description' => $currentArray->Description, 'InstanceID' => $currentArray->InstanceID, 'rowColor' => $rowColor];
                 if ($zoneMemberStatus == false) {
                     $this->SetStatus(2411);
                 }
@@ -212,7 +212,7 @@ class TrivumFlexLine extends IPSModule
                     $rowColor = '#FFC0C0';
                     $favouriteStatus = false;
                 }
-                $formdata->elements[3]->items[2]->values[] = ['Position' => $currentArray->Position, 'Favorite' => $currentArray->Favorite, 'Description' => $currentArray->Description, 'Volume' => $currentArray->Volume, 'rowColor' => $rowColor];
+                $formdata->elements[9]->items[5]->values[] = ['Position' => $currentArray->Position, 'Favorite' => $currentArray->Favorite, 'Description' => $currentArray->Description, 'Volume' => $currentArray->Volume, 'rowColor' => $rowColor];
                 if ($favouriteStatus == false) {
                     $this->SetStatus(2311);
                 }
