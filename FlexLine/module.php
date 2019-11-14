@@ -13,9 +13,8 @@
  * @license    	CC BY-NC-SA 4.0
  *              https://creativecommons.org/licenses/by-nc-sa/4.0/
  *
- * @version     1.04-1
- * @date        2019-01-06, 11:00
- * @lastchange  2019-01-06, 11:00
+ * @version     1.04-3
+ * @date        2019-08-11, 18:00
  *
  * @see         https://github.com/ubittner/SymconTrivum
  *
@@ -25,15 +24,13 @@
  *              FlexLine
  *             	{CFAA5028-F205-4FE6-B86C-4F5E1EDD4CCD}
  *
- * @changelog   2019-01-06, 11:00, initial version 1.04-1
- *
  */
 
 // Declare
 declare(strict_types=1);
 
 // Include
-include_once __DIR__ . '/helper/UBTFL_Autoload.php';
+include_once __DIR__ . '/helper/autoload.php';
 
 class TrivumFlexLine extends IPSModule
 {
@@ -47,8 +44,8 @@ class TrivumFlexLine extends IPSModule
         $this->RegisterPropertyInteger('Timeout', 1000);
         $this->RegisterPropertyInteger('ZoneID', 0);
         $this->RegisterPropertyString('ZoneName', '');
-        $this->RegisterPropertyString('FavoriteList', '');
-        $this->RegisterPropertyString('ZoneMembersList', '');
+        $this->RegisterPropertyString('Favorites', '');
+        $this->RegisterPropertyString('ZoneMembers', '');
     }
 
     public function ApplyChanges()
@@ -84,7 +81,7 @@ class TrivumFlexLine extends IPSModule
         $this->RegisterVariableInteger('AudioSources', $this->Translate('AudioSources'), $audioSources, 2);
         $this->EnableAction('AudioSources');
         IPS_SetIcon($this->GetIDForIdent('AudioSources'), 'Melody');
-        $favorites = json_decode($this->ReadPropertyString('FavoriteList'));
+        $favorites = json_decode($this->ReadPropertyString('Favorites'));
         if (empty($favorites)) {
             $this->SetValue('AudioSources', -1);
         } else {
@@ -106,7 +103,7 @@ class TrivumFlexLine extends IPSModule
         // Zone Members
         $this->CreateZoneMembersProfile();
         $zoneMembers = 'UBTFL.' . $this->InstanceID . '.ZoneMembers';
-        $this->RegisterVariableInteger('ZoneMembers', $this->Translate('Zone members'), $zoneMembers, 4);
+        $this->RegisterVariableInteger('ZoneMembers', $this->Translate('Add zone'), $zoneMembers, 4);
         $this->EnableAction('ZoneMembers');
         $this->SetValue('ZoneMembers', -1);
 
@@ -132,10 +129,7 @@ class TrivumFlexLine extends IPSModule
 
     public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
     {
-        /*
-        // Log message
-        IPS_LogMessage('MessageSink', 'Message from SenderID ' . $SenderID . ' with Message ' . $Message . "\r\n Data: " . print_r($Data, true));
-        */
+        $this->SendDebug('MessageSink', 'SenderID: ' . $SenderID . ', Message: ' . $Message, 0);
         switch ($Message) {
             case IPS_KERNELSTARTED:
                 $this->KernelReady();
@@ -157,7 +151,7 @@ class TrivumFlexLine extends IPSModule
     {
         $formdata = json_decode(file_get_contents(__DIR__ . '/form.json'));
         // Zone members
-        $ZoneMembers = json_decode($this->ReadPropertyString('ZoneMembersList'));
+        $ZoneMembers = json_decode($this->ReadPropertyString('ZoneMembers'));
         if (!empty($ZoneMembers)) {
             $zoneMemberStatus = true;
             foreach ($ZoneMembers as $currentKey => $currentArray) {
@@ -184,14 +178,14 @@ class TrivumFlexLine extends IPSModule
                     $rowColor = '#FFC0C0';
                     $zoneMemberStatus = false;
                 }
-                $formdata->elements[4]->items[1]->values[] = ['Position' => $currentArray->Position, 'ZoneID' => $currentArray->ZoneID, 'Description' => $currentArray->Description, 'InstanceID' => $currentArray->InstanceID, 'rowColor' => $rowColor];
+                $formdata->elements[10]->items[2]->values[] = ['Position' => $currentArray->Position, 'ZoneID' => $currentArray->ZoneID, 'Description' => $currentArray->Description, 'InstanceID' => $currentArray->InstanceID, 'rowColor' => $rowColor];
                 if ($zoneMemberStatus == false) {
                     $this->SetStatus(2411);
                 }
             }
         }
         // Favorites
-        $favorites = json_decode($this->ReadPropertyString('FavoriteList'));
+        $favorites = json_decode($this->ReadPropertyString('Favorites'));
         if (!empty($favorites)) {
             $favouriteStatus = true;
             foreach ($favorites as $currentKey => $currentArray) {
@@ -218,13 +212,12 @@ class TrivumFlexLine extends IPSModule
                     $rowColor = '#FFC0C0';
                     $favouriteStatus = false;
                 }
-                $formdata->elements[3]->items[2]->values[] = ['Position' => $currentArray->Position, 'Favorite' => $currentArray->Favorite, 'Description' => $currentArray->Description, 'Volume' => $currentArray->Volume, 'rowColor' => $rowColor];
+                $formdata->elements[9]->items[5]->values[] = ['Position' => $currentArray->Position, 'Favorite' => $currentArray->Favorite, 'Description' => $currentArray->Description, 'Volume' => $currentArray->Volume, 'rowColor' => $rowColor];
                 if ($favouriteStatus == false) {
                     $this->SetStatus(2311);
                 }
             }
         }
-
         return json_encode($formdata);
     }
 
@@ -365,7 +358,7 @@ class TrivumFlexLine extends IPSModule
                     $favoriteList[$i]['Volume'] = (int) 10;
                     $i++;
                 }
-                IPS_SetProperty($this->InstanceID, 'FavoriteList', json_encode($favoriteList));
+                IPS_SetProperty($this->InstanceID, 'Favorites', json_encode($favoriteList));
                 if (IPS_HasChanges($this->InstanceID)) {
                     IPS_ApplyChanges($this->InstanceID);
                 }
@@ -436,6 +429,14 @@ class TrivumFlexLine extends IPSModule
         $result = null;
 
         try {
+
+            // Check if device is a slave
+            $groupType = (string)$this->GetValue('GroupType');
+            // Device is a slave, dissolve group
+            if ($groupType == 'Slave') {
+                $this->SelectZoneMember(-1);
+            }
+
             $zoneID = $this->ReadPropertyInteger('ZoneID');
             // Get value from audio favorites profile
             $profile = 'UBTFL.' . $this->InstanceID . '.AudioFavorites';
@@ -451,7 +452,7 @@ class TrivumFlexLine extends IPSModule
             $favoriteID = $favorite;
             $endpoint = null;
             if (!is_null($favorite)) {
-                $favorites = json_decode($this->ReadPropertyString('FavoriteList'));
+                $favorites = json_decode($this->ReadPropertyString('Favorites'));
                 if (!empty($favorites)) {
                     foreach ($favorites as $favorite) {
                         if ($favorite->Favorite == $favoriteID) {
@@ -524,7 +525,7 @@ class TrivumFlexLine extends IPSModule
      */
     public function SelectZoneMember(int $MemberZoneID)
     {
-        $zoneMembers = json_decode($this->ReadPropertyString('ZoneMembersList'));
+        $zoneMembers = json_decode($this->ReadPropertyString('ZoneMembers'));
         if (!empty($zoneMembers)) {
             foreach ($zoneMembers as $zoneMember) {
                 if ($MemberZoneID == $zoneMember->Position) {
@@ -533,7 +534,7 @@ class TrivumFlexLine extends IPSModule
             }
         }
         $masterZoneID = $this->ReadPropertyInteger('ZoneID');
-        $zoneMembers = json_decode($this->ReadPropertyString('ZoneMembersList'));
+        $zoneMembers = json_decode($this->ReadPropertyString('ZoneMembers'));
         if ($MemberZoneID != -1) {
             $groupStatus = $this->GetGroupStatus();
             if (!is_null($groupStatus)) {
@@ -548,7 +549,7 @@ class TrivumFlexLine extends IPSModule
                 }
                 // First grouping
                 if ($groupNumber == 255) {
-                    $newZoneMembers = '--------';
+                    $newZoneMembers = '----------------';
                     $newZoneMembers = substr_replace($newZoneMembers, '+', $masterZoneID, 1);
                     $newZoneMembers = substr_replace($newZoneMembers, '+', $MemberZoneID, 1);
                     $endpoint = '/xml/zone/createGroup.xml?zone=' . $MemberZoneID . '&oldgroup=' . $masterZoneID . '&members=' . $newZoneMembers;
@@ -588,7 +589,7 @@ class TrivumFlexLine extends IPSModule
                 }
                 // Add another zone
                 if ($groupNumber >= 0 && $groupNumber < 255) {
-                    $newZoneMembers = '--------';
+                    $newZoneMembers = '----------------';
                     foreach ($zones as $zone) {
                         $zoneID = (int) $zone->id;
                         $zoneGroupNumber = (int) $zone->group;
@@ -682,7 +683,7 @@ class TrivumFlexLine extends IPSModule
                     }
                 }
                 // Dissolve group
-                $newZoneMembers = '--------';
+                $newZoneMembers = '----------------';
                 $newZoneMembers = substr_replace($newZoneMembers, '+', $masterZoneID, 1);
                 $endpoint = '/xml/zone/createGroup.xml?zone=' . $masterZoneID . '&oldgroup=' . $masterZoneID . '&members=' . $newZoneMembers;
                 $this->SendData($endpoint);
@@ -754,7 +755,7 @@ class TrivumFlexLine extends IPSModule
         IPS_SetVariableProfileIcon($profile, 'Melody');
         IPS_SetVariableProfileValues($profile, 0, 0, 0);
         // Get favorite list
-        $favorites = json_decode($this->ReadPropertyString('FavoriteList'));
+        $favorites = json_decode($this->ReadPropertyString('Favorites'));
         if (!empty($favorites)) {
             foreach ($favorites as $favorite) {
                 $value = $favorite->Position;
@@ -786,7 +787,7 @@ class TrivumFlexLine extends IPSModule
         IPS_SetVariableProfileIcon($profile, 'Melody');
         IPS_SetVariableProfileValues($profile, 0, 0, 0);
         // Get favorite list
-        $favorites = json_decode($this->ReadPropertyString('FavoriteList'));
+        $favorites = json_decode($this->ReadPropertyString('Favorites'));
         if (!empty($favorites)) {
             foreach ($favorites as $favorite) {
                 $value = $favorite->Position;
@@ -817,7 +818,7 @@ class TrivumFlexLine extends IPSModule
         // Create first associations
         IPS_SetVariableProfileAssociation($zoneMembersProfile, -1, $this->Translate('Off'), '', 0x0000FF);
         // Get zone members list
-        $zoneMembers = json_decode($this->ReadPropertyString('ZoneMembersList'));
+        $zoneMembers = json_decode($this->ReadPropertyString('ZoneMembers'));
         if (!empty($zoneMembers)) {
             foreach ($zoneMembers as $zoneMember) {
                 $position = (int) $zoneMember->Position;
@@ -872,7 +873,7 @@ class TrivumFlexLine extends IPSModule
     private function SetStandardVolume()
     {
         $audioSource = $this->GetValue('AudioSources');
-        $favorites = json_decode($this->ReadPropertyString('FavoriteList'));
+        $favorites = json_decode($this->ReadPropertyString('Favorites'));
         foreach ($favorites as $favorite) {
             if ($favorite->Position == $audioSource) {
                 if ($favorite->Volume >= 0) {
